@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - JCB Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { background: #000; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        
+        /* Top Banner */
+        .banner { width: 100%; height: 45vh; background: url('https://images.unsplash.com/photo-1581094288338-2314dddb79a9?q=80&w=1000') no-repeat center; background-size: cover; position: relative; }
+        .logo-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; }
+        .logo-circle { width: 70px; height: 70px; background: #ffcc00; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; border: 3px solid white; font-weight: bold; color: black; font-size: 18px; }
+
+        /* Form Styling */
+        .form-card { background: white; flex: 1; border-radius: 35px 35px 0 0; margin-top: -40px; padding: 30px 20px; position: relative; z-index: 10; }
+        .tabs { display: flex; justify-content: space-around; margin-bottom: 25px; border-bottom: 1px solid #eee; }
+        .tab { padding-bottom: 10px; font-weight: bold; color: #888; cursor: pointer; }
+        .tab.active { color: #000; border-bottom: 3px solid #333; }
+
+        .input-group { background: #f6f6f6; border-radius: 50px; padding: 14px 20px; margin-bottom: 15px; display: flex; align-items: center; border: 1px solid #ddd; }
+        .input-group span { color: #333; font-weight: bold; border-right: 1px solid #ccc; padding-right: 12px; margin-right: 12px; }
+        input { border: none; background: transparent; outline: none; width: 100%; font-size: 15px; color: #333; }
+        
+        .btn-register { width: 100%; padding: 16px; background: #444; color: white; border-radius: 50px; border: none; font-size: 18px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+        .footer-text { text-align: center; margin-top: 15px; color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="banner">
+    <div class="logo-box">
+        <div class="logo-circle">JCB</div>
+        <h2 style="margin-top:10px; font-size: 22px;">JCB MACHINERY</h2>
+    </div>
+</div>
+
+<div class="form-card">
+    <div class="tabs">
+        <div class="tab">Login</div>
+        <div class="tab active">Register</div>
+    </div>
+
+    <div class="input-group">
+        <span>+91</span>
+        <input type="number" id="phone" placeholder="Enter Phone Number">
+    </div>
+    <div class="input-group">
+        <input type="password" id="pass" placeholder="Please new password">
+    </div>
+    <div class="input-group">
+        <input type="password" id="pass_confirm" placeholder="Please new password again">
+    </div>
+    <div class="input-group">
+        <input type="password" id="withdraw_pass" placeholder="Enter Withdrawal Password">
+    </div>
+    <div class="input-group" style="background: #efefef;">
+        <input type="text" id="invite" value="dd3f2eb7" readonly>
+    </div>
+
+    <button class="btn-register" onclick="doRegister()">Register</button>
+    <p class="footer-text">I already have an account</p>
+</div>
+
+<script>
+    // 1. Session Check (Agar banda login hai to seedha home par bhejo)
+    window.onload = function() {
+        if(localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = "home.html";
+        }
+    }
+
+    // 2. Registration Logic
+    function doRegister() {
+        const phone = document.getElementById('phone').value;
+        const pass = document.getElementById('pass').value;
+        const pass2 = document.getElementById('pass_confirm').value;
+        const wPass = document.getElementById('withdraw_pass').value;
+
+        if(phone.length < 10) { alert("Sahi mobile number daalein"); return; }
+        if(pass !== pass2) { alert("Passwords match nahi kar rahe"); return; }
+        if(wPass === "") { alert("Withdrawal password bhariye"); return; }
+
+        // Data save karo
+        localStorage.setItem('user_phone', phone);
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('user_balance', '0.00');
+        localStorage.setItem('total_income', '0.00');
+
+        alert("Registration Successful!");
+        window.location.href = "home.html";
+    }
+</script>
+
+</body>
+</html>
