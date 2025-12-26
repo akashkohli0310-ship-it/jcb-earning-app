@@ -1,102 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JCB Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background: #f8f8f8; padding-bottom: 80px; }
-
-        /* Top Banner */
-        .banner { width: 100%; height: 210px; background: url('https://images.unsplash.com/photo-1579412691522-bc78627790e1?q=80&w=1000') no-repeat center; background-size: cover; border-bottom: 3px solid #ffcc00; }
-
-        /* Icon Buttons Bar */
-        .action-bar { background: #222; display: flex; justify-content: space-around; padding: 15px 5px; color: white; text-align: center; }
-        .action-item { flex: 1; cursor: pointer; }
-        .action-item i { font-size: 22px; margin-bottom: 6px; display: block; color: #ffcc00; }
-        .action-item span { font-size: 11px; font-weight: 500; }
-
-        /* Tab Switcher */
-        .tabs { display: flex; background: white; margin: 10px 0; }
-        .tab-btn { flex: 1; padding: 12px; text-align: center; font-weight: bold; border-bottom: 2px solid #eee; }
-        .tab-btn.active { background: #222; color: white; border-bottom: 2px solid #ffcc00; }
-
-        /* JCB Product Card */
-        .product-card { background: white; margin: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: relative; }
-        .quota-tag { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; }
-        .product-img { width: 100%; height: 180px; background: #fff; display: flex; align-items: center; justify-content: center; padding: 10px; }
-        .product-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        
-        .product-title { padding: 10px 15px; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.03); border-bottom: 1px solid #eee; }
-
-        .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #eee; }
-        .price-item { background: white; padding: 15px; text-align: center; }
-        .price-item p { font-size: 11px; color: #888; margin-bottom: 5px; }
-        .price-item h4 { font-size: 16px; color: #333; }
-
-        .buy-now-btn { width: 100%; background: #333; color: white; border: none; padding: 14px; font-weight: bold; font-size: 16px; cursor: pointer; }
-
-        /* Bottom Nav */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-item { text-align: center; color: #888; text-decoration: none; font-size: 11px; }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
-        .nav-item.active { color: #000; font-weight: bold; }
+        body { background: #f4f4f4; margin: 0; font-family: sans-serif; padding-bottom: 70px; }
+        .banner { width: 100%; height: 200px; background: url('https://m.media-amazon.com/images/I/71u9S+K+zVL.jpg') center/cover; }
+        .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; padding: 15px; margin: 10px; border-radius: 10px; text-align: center; font-size: 12px; }
+        .menu-item i { font-size: 24px; color: #ffc107; display: block; margin-bottom: 5px; }
+        .nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 10px; border-top: 1px solid #ddd; }
     </style>
 </head>
 <body>
-
     <div class="banner"></div>
-
-    <div class="action-bar">
-        <div class="action-item" onclick="window.location.href='recharge.html'">
-            <i class="fas fa-file-invoice-dollar"></i><span>Recharge</span>
-        </div>
-        <div class="action-item" onclick="window.location.href='withdraw.html'">
-            <i class="fas fa-hand-holding-usd"></i><span>Withdraw</span>
-        </div>
-        <div class="action-item">
-            <i class="fas fa-headset"></i><span>Service</span>
-        </div>
-        <div class="action-item">
-            <i class="fas fa-paper-plane"></i><span>Channel</span>
-        </div>
+    <div style="background:#333; color:#fff; padding:20px; margin:10px; border-radius:10px;">
+        <p>Balance</p><h2>₹ <span id="b">0.00</span></h2>
     </div>
-
-    <div class="tabs">
-        <div class="tab-btn active">Daily income</div>
-        <div class="tab-btn">High-tech</div>
+    <div class="menu-grid">
+        <div class="menu-item" onclick="location.href='recharge.html'"><i class="fas fa-plus-circle"></i>Recharge</div>
+        <div class="menu-item" onclick="location.href='withdraw.html'"><i class="fas fa-wallet"></i>Withdraw</div>
+        <div class="menu-item" onclick="alert('Income: ₹0')"><i class="fas fa-chart-line"></i>Income</div>
+        <div class="menu-item" onclick="window.location.href='https://t.me/your_telegram'"><i class="fas fa-headset"></i>Support</div>
     </div>
-
-    <div class="product-card">
-        <div class="quota-tag">Quota 0/2</div>
-        <div class="product-img">
-            <img src="https://pngimg.com/uploads/jcb/jcb_PNG38.png" alt="JCB Excavator">
-        </div>
-        <div class="product-title">JCB Heavy Machinery Project A</div>
-        <div class="price-grid">
-            <div class="price-item"><p>Price</p><h4>₹ 570.00</h4></div>
-            <div class="price-item"><p>Daily profit</p><h4>₹ 100.00</h4></div>
-            <div class="price-item"><p>Cycle</p><h4>120 Days</h4></div>
-            <div class="price-item"><p>Total income</p><h4>₹ 12000.00</h4></div>
-        </div>
-        <button class="buy-now-btn" onclick="window.location.href='recharge.html'">Buy Now</button>
+    <div class="nav">
+        <a href="home.html" style="color:#ffc107; text-decoration:none;"><i class="fas fa-home"></i><br>Home</a>
+        <a href="my.html" style="color:#888; text-decoration:none;"><i class="fas fa-user"></i><br>My</a>
     </div>
-
-    <div class="bottom-nav">
-        <a href="home.html" class="nav-item active"><i class="fas fa-home"></i>Home</a>
-        <a href="income.html" class="nav-item"><i class="fas fa-list-alt"></i>Income</a>
-        <a href="team.html" class="nav-item"><i class="fas fa-users"></i>Team</a>
-        <a href="share.html" class="nav-item"><i class="fas fa-share-alt"></i>Share</a>
-        <a href="my.html" class="nav-item"><i class="fas fa-user-circle"></i>My</a>
-    </div>
-
-    <script>
-        // Security check
-        if(localStorage.getItem('isLoggedIn') !== 'true') {
-            window.location.href = 'index.html';
-        }
-    </script>
+    <script>document.getElementById('b').innerText = localStorage.getItem('balance') || '0.00';</script>
 </body>
 </html>
