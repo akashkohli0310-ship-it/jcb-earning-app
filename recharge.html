@@ -1,50 +1,58 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { background: #f4f4f4; font-family: sans-serif; padding: 20px; }
-        .card { background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .upi-id { background: #eee; padding: 10px; border-radius: 5px; font-weight: bold; text-align: center; margin: 15px 0; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 12px; background: #ffc107; border: none; border-radius: 8px; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <h3>Recharge Account</h3>
-        <p>Step 1: Pay to UPI ID</p>
-        <div class="upi-id">jcbmining@upi <button onclick="navigator.clipboard.writeText('jcbmining@upi')">Copy</button></div>
-        <p>Step 2: Enter Amount & UTR</p>
-        <input type="number" id="amt" placeholder="Enter Amount (min ₹570)">
-        <input type="number" id="utr" placeholder="12 Digit UTR Number">
-        <button class="btn" onclick="submitRecharge()">SUBMIT PAYMENT</button>
+<div style="background: #1e1e1e; padding: 25px; border-radius: 20px; text-align: center; color: white;">
+    <h3 style="color: #ffc107;">Recharge Amount: ₹570</h3>
+    <p style="font-size: 13px; color: #aaa; margin-bottom: 20px;">Click niche karein aur kisi bhi UPI app se pay karein</p>
+
+    <button onclick="startPayment()" style="width: 100%; background: #ffc107; color: black; padding: 15px; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer;">
+        <i class="fas fa-mobile-alt"></i> PAY WITH UPI APP
+    </button>
+
+    <div id="utr_box" style="display: none; margin-top: 25px; padding-top: 20px; border-top: 1px solid #333;">
+        <p style="color: #ffc107; font-size: 14px;">Payment successful hone ke baad 12-digit UTR dalo:</p>
+        <input type="number" id="utr_value" placeholder="Enter 12-digit UTR" style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; background: #2a2a2a; color: white; border: 1px solid #444;">
+        <button onclick="submitRechargeData()" style="width: 100%; background: #28a745; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold;">SUBMIT TO DASHBOARD</button>
     </div>
+</div>
 
-    <script>
-        function submitRecharge() {
-            let utr = document.getElementById('utr').value;
-            let amount = document.getElementById('amt').value;
-            let phone = localStorage.getItem('userPhone') || 'Guest';
+<script>
+    function startPayment() {
+        const upiID = "8968146117@ybl"; // Aapki ID
+        const amount = 570;
+        const name = "JCB Mining";
+        
+        // UPI Deep Link jo saare apps dikhayega
+        const upiUrl = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+        
+        window.location.href = upiUrl;
 
-            if(utr.length < 12) { alert("Invalid UTR!"); return; }
+        // 2 second baad UTR box dikhao taaki user payment ke baad wapas aaye toh dikhe
+        setTimeout(() => {
+            document.getElementById('utr_box').style.display = 'block';
+        }, 2000);
+    }
 
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbxv3mqFV_LSa37HzNifceMqsqyW_U6h7sefSxBOCQGUTpSYhO92uyEH8Wm_V-e1fugP/exec';
+    function submitRechargeData() {
+        const utr = document.getElementById('utr_value').value;
+        const phone = localStorage.getItem('userPhone'); // User ka apna number
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyWqwd09HQOZiB_-6HpMnhF-WR5PclYPqSSRRNDqHRX1OnCazgob6lNhMYOWMpa80Jn/exec';
 
-            fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({
-                    phone: phone,
-                    type: 'RECHARGE',
-                    amount: amount,
-                    details: 'UTR: ' + utr
-                })
-            }).then(() => {
-                alert("Recharge Submitted! Checking in 30 mins.");
-                window.location.href = 'home.html';
-            });
+        if (utr.length < 12) {
+            alert("Bhai, sahi 12-digit UTR number dalo!");
+            return;
         }
-    </script>
-</body>
-</html>
+
+        // Sheet mein data save karna
+        fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify({
+                phone: phone,
+                type: 'RECHARGE',
+                amount: '570',
+                details: 'UTR: ' + utr
+            })
+        }).then(() => {
+            alert("Recharge Request Sent! Approval mein 10-15 mins lagenge.");
+            window.location.href = 'home.html';
+        });
+    }
+</script>
