@@ -1,54 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body { margin: 0; background: #f8f9fa; font-family: sans-serif; padding-bottom: 90px; }
-        .profile-bg { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.ibb.co/FR1vrk8/182326.jpg') center/cover; height: 180px; padding: 20px; color: white; display: flex; align-items: center; position: relative; }
-        .avatar-box { width: 70px; height: 70px; background: #fff; border-radius: 12px; border: 2px solid #ffc107; display: flex; align-items: center; justify-content: center; }
-        .avatar-box span { color: #ffc107; font-weight: bold; font-size: 20px; }
-        .user-info { margin-left: 15px; }
-        .phone-num { font-size: 20px; font-weight: bold; margin: 0; color: #ffc107; }
-        .bal-card { display: grid; grid-template-columns: 1fr 1fr; background: #fff; margin: -30px 15px 15px 15px; padding: 25px 10px; border-radius: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; z-index: 10; }
-        .menu-list { background: #fff; margin: 0 15px; border-radius: 12px; overflow: hidden; }
-        .menu-item { padding: 18px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; cursor: pointer; text-decoration: none; color: inherit; }
-        
-        .nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-item { text-decoration: none; color: #888; text-align: center; font-size: 12px; width: 33%; }
-        .nav-item.active { color: #ffc107; font-weight: bold; }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 2px; }
-    </style>
-</head>
-<body>
-    <div class="profile-bg">
-        <div class="avatar-box"><span>JCB</span></div>
-        <div class="user-info">
-            <p class="phone-num" id="u_ph">8968146117</p>
-            <p style="font-size:12px; opacity: 0.8;">JCB Mining ID: 13606</p>
-        </div>
+<div class="profile-card" style="background: #1e1e1e; padding: 20px; border-radius: 15px; text-align: center; color: white; border-top: 3px solid #ffc107;">
+    <div class="user-avatar" style="margin-bottom: 10px;">
+        <i class="fas fa-user-circle" style="font-size: 50px; color: #ffc107;"></i>
     </div>
+    
+    <h3 id="display_phone" style="margin: 5px 0; letter-spacing: 1px;">Loading...</h3>
+    <p style="font-size: 12px; color: #888;">Member ID: <span id="user_id_val">0000</span></p>
 
-    <div class="bal-card">
-        <div class="bal-item"><h2 id="balance">0.00</h2><p>Balance</p></div>
-        <div class="bal-item"><h2>0.00</h2><p>Income</p></div>
+    <div class="balance-box" style="background: #2a2a2a; margin-top: 15px; padding: 15px; border-radius: 10px;">
+        <p style="font-size: 13px; color: #aaa;">Total Balance</p>
+        <h2 style="color: #ffc107;">₹<span id="display_balance">0.00</span></h2>
     </div>
+</div>
 
-    <div class="menu-list">
-        <a href="withdraw.html" class="menu-item"><span><i class="fas fa-wallet" style="color:#ffc107; margin-right:10px;"></i> Withdrawal</span><i class="fas fa-chevron-right"></i></a>
-        <a href="https://t.me/your_telegram" class="menu-item"><span><i class="fas fa-headset" style="color:#ffc107; margin-right:10px;"></i> Support</span><i class="fas fa-chevron-right"></i></a>
-        <a href="index.html" class="menu-item" style="color:red; border:none;"><span><i class="fas fa-power-off" style="margin-right:10px;"></i> Logout</span><i class="fas fa-chevron-right"></i></a>
-    </div>
+<script>
+    // 1. Page khulte hi check karo ki kaunsa user login hai
+    window.onload = function() {
+        const savedPhone = localStorage.getItem('userPhone');
+        const savedBalance = localStorage.getItem('balance') || "0.00";
 
-    <div class="nav">
-        <a href="home.html" class="nav-item"><i class="fas fa-home"></i>Home</a>
-        <a href="share.html" class="nav-item"><i class="fas fa-share-alt"></i>Share</a>
-        <a href="my.html" class="nav-item active"><i class="fas fa-user"></i>My</a>
-    </div>
+        // 2. Agar number mil gaya toh screen par update karo
+        if (savedPhone) {
+            document.getElementById('display_phone').innerText = savedPhone;
+            // User ID ke liye phone ke aakhri 4 digits use kar rahe hain
+            document.getElementById('user_id_val').innerText = savedPhone.substring(6);
+        } else {
+            // Agar login nahi hai toh login page par bhej do
+            window.location.href = 'index.html';
+        }
 
-    <script>
-        document.getElementById('balance').innerText = localStorage.getItem('balance') || '0.00';
-        document.getElementById('u_ph').innerText = localStorage.getItem('userPhone') || '8968146117';
-    </script>
-</body>
-</html>
+        // 3. Balance update karo
+        document.getElementById('display_balance').innerText = savedBalance;
+    };
+
+    // Logout Function (Taki user badal sake)
+    function handleLogout() {
+        localStorage.removeItem('userPhone');
+        localStorage.removeItem('balance');
+        window.location.href = 'index.html';
+    }
+</script>
