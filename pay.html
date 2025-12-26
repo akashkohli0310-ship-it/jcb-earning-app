@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment - JCB</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #f8f9fa; }
+        .pay-header { background: #fff; padding: 15px; display: flex; align-items: center; border-bottom: 1px solid #eee; }
+        .pay-header h3 { flex: 1; text-align: center; font-size: 18px; color: #333; }
+        .timer-box { background: #fff3cd; color: #856404; padding: 10px; text-align: center; font-size: 14px; font-weight: bold; }
+        .main-container { padding: 15px; }
+        .amount-card { background: #333; color: #fff; border-radius: 12px; padding: 25px; text-align: center; margin-bottom: 20px; }
+        .amount-card h1 { font-size: 36px; margin-top: 5px; }
+        .upi-info-box { background: #fff; border-radius: 12px; padding: 20px; border: 1px solid #ddd; position: relative; }
+        .upi-id { font-size: 18px; font-weight: bold; color: #333; display: flex; justify-content: space-between; align-items: center; }
+        .copy-link { color: #007bff; font-size: 14px; font-weight: bold; cursor: pointer; }
+        .qr-section { text-align: center; margin: 25px 0; }
+        .qr-placeholder { width: 220px; height: 220px; background: #fff; border: 5px solid #333; border-radius: 10px; margin: 0 auto; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .qr-placeholder img { width: 90%; }
+        .utr-section { background: #fff; border-radius: 12px; padding: 20px; border: 1px solid #ddd; margin-top: 20px; }
+        .utr-input { width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-bottom: 15px; }
+        .btn-submit { width: 100%; background: #28a745; color: white; border: none; padding: 16px; border-radius: 50px; font-size: 18px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="pay-header">
+        <i class="fas fa-arrow-left" onclick="history.back()"></i>
+        <h3>Order Payment</h3>
+    </div>
+
+    <div class="timer-box">Payment expires in: <span id="timer">10:00</span></div>
+
+    <div class="main-container">
+        <div class="amount-card">
+            <p>Payable Amount</p>
+            <h1>₹ <span id="pay_amt">570.00</span></h1>
+        </div>
+
+        <div class="upi-info-box">
+            <p style="font-size: 12px; color: #888;">Transfer to UPI ID:</p>
+            <div class="upi-id">
+                <span id="upi_val">8968146117@ybl</span>
+                <span class="copy-link" onclick="copyUPI()"><i class="far fa-copy"></i> Copy</span>
+            </div>
+        </div>
+
+        <div class="qr-section">
+            <div class="qr-placeholder">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=8968146117@ybl%26am=570%26cu=INR" alt="Payment QR">
+            </div>
+            <p style="font-size: 12px; color: #888; margin-top: 10px;">Scan or Copy UPI to pay</p>
+        </div>
+
+        <div class="utr-section">
+            <label style="font-weight:bold;">Input 12-Digit UTR / Ref No.</label>
+            <input type="number" id="utr_input" class="utr-input" placeholder="Enter Reference Number">
+            <button class="btn-submit" onclick="submitUTR()">Submit Payment</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('pay_amt').innerText = localStorage.getItem('last_recharge_amt') || '570.00';
+        function copyUPI() {
+            let upiText = document.getElementById('upi_val').innerText;
+            navigator.clipboard.writeText(upiText);
+            alert("UPI ID Copied!");
+        }
+        let timeLeft = 600; 
+        setInterval(function() {
+            if(timeLeft <= 0) return;
+            timeLeft--;
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            document.getElementById('timer').innerText = mins + ":" + (secs < 10 ? '0' : '') + secs;
+        }, 1000);
+        function submitUTR() {
+            let utr = document.getElementById('utr_input').value;
+            if(utr.length < 12) { alert("Please enter a valid 12-digit UTR"); return; }
+            alert("Verification in process! Your balance will be updated soon.");
+            window.location.href = 'home.html';
+        }
+    </script>
+</body>
+</html>
