@@ -1,54 +1,82 @@
-<div class="recharge-box" style="background: #1e1e1e; padding: 20px; border-radius: 15px; text-align: center; color: white;">
-    <h3 style="color: #ffc107;">Recharge Section</h3>
-    
-    <div style="margin: 20px 0;">
-        <p style="font-size: 14px; color: #aaa;">Amount Edit Karein (e.g. Test ke liye 1 dalo):</p>
-        <input type="number" id="recharge_amount" value="570" style="width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ffc107; background: #2a2a2a; color: white; font-size: 20px; text-align: center; font-weight: bold;">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #121212; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .recharge-card { background: #1e1e1e; width: 100%; max-width: 350px; border-radius: 15px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: center; }
+        
+        .header h2 { color: #ffc107; font-size: 20px; margin-bottom: 5px; }
+        .header p { color: #888; font-size: 12px; margin-bottom: 20px; }
+
+        .input-box { background: #2a2a2a; border: 1px solid #333; border-radius: 10px; padding: 10px; margin-bottom: 20px; }
+        .input-box label { display: block; font-size: 12px; color: #ffc107; margin-bottom: 5px; text-align: left; }
+        .input-box input { width: 100%; background: transparent; border: none; color: white; font-size: 24px; font-weight: bold; text-align: center; outline: none; }
+
+        .pay-btn { background: #ffc107; color: black; border: none; width: 100%; padding: 12px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .pay-btn:active { transform: scale(0.95); }
+
+        #utr_section { margin-top: 25px; display: none; border-top: 1px solid #333; padding-top: 20px; }
+        .utr-input { width: 100%; padding: 12px; border-radius: 8px; background: #000; border: 1px solid #444; color: white; margin-bottom: 10px; }
+        .submit-btn { background: #28a745; color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="recharge-card">
+    <div class="header">
+        <h2>Recharge Wallet</h2>
+        <p>Enter amount and pay via any UPI app</p>
     </div>
 
-    <button onclick="payNow()" style="width: 100%; background: #ffc107; color: black; padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer;">
-        PAY WITH UPI APP
+    <div class="input-box">
+        <label>Recharge Amount (₹)</label>
+        <input type="number" id="recharge_amount" value="570">
+    </div>
+
+    <button class="pay-btn" onclick="payWithUPI()">
+        <i class="fas fa-bolt"></i> PAY WITH UPI APP
     </button>
 
-    <div id="utr_section" style="display: none; margin-top: 25px; border-top: 1px solid #333; padding-top: 20px;">
-        <input type="number" id="utr_input" placeholder="Enter 12-Digit UTR Number" style="width: 100%; padding: 12px; border-radius: 8px; background: #2a2a2a; color: white; border: 1px solid #444;">
-        <button onclick="submitRecharge()" style="width: 100%; background: #28a745; color: white; padding: 12px; border: none; border-radius: 8px; margin-top: 10px; font-weight: bold;">SUBMIT RECHARGE</button>
+    <div id="utr_section">
+        <p style="font-size: 13px; color: #ffc107; margin-bottom: 10px;">Payment successful? Enter 12-digit UTR:</p>
+        <input type="number" id="utr_number" class="utr-input" placeholder="Example: 498273645123">
+        <button class="submit-btn" onclick="submitData()">SUBMIT TO SHEET</button>
     </div>
 </div>
 
 <script>
-    function payNow() {
-        // User jo bhi amount likhega (570 ya 1), wo yahan se pick hoga
-        const amt = document.getElementById('recharge_amount').value;
-        const upiID = "8968146117@ybl"; // Aapki ID
-        
+    function payWithUPI() {
+        var amt = document.getElementById('recharge_amount').value;
+        var upiID = "8968146117@ybl"; //
+
         if (!amt || amt < 1) {
-            alert("Sahi amount dalo bhai!");
+            alert("Bhai, kam se kam ₹1 dalo!");
             return;
         }
 
-        // UPI link user ke likhe huye amount (amt) ke saath khulega
-        const upiUrl = `upi://pay?pa=${upiID}&pn=JCB_Mining&am=${amt}&cu=INR`;
-        window.location.href = upiUrl;
+        // UPI Link
+        var url = "upi://pay?pa=" + upiID + "&pn=JCB_Mining&am=" + amt + "&cu=INR";
+        window.location.href = url;
 
-        // UTR box dikhao
-        setTimeout(() => {
+        // UTR box dikhane ke liye
+        setTimeout(function() {
             document.getElementById('utr_section').style.display = 'block';
         }, 2000);
     }
 
-    function submitRecharge() {
-        const amt = document.getElementById('recharge_amount').value;
-        const utr = document.getElementById('utr_input').value;
-        const phone = localStorage.getItem('userPhone'); // User ka apna number
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyWqwd09HQOZiB_-6HpMnhF-WR5PclYPqSSRRNDqHRX1OnCazgob6lNhMYOWMpa80Jn/exec';
+    function submitData() {
+        var amt = document.getElementById('recharge_amount').value;
+        var utr = document.getElementById('utr_number').value;
+        var phone = localStorage.getItem('userPhone'); 
+        var scriptURL = 'https://script.google.com/macros/s/AKfycbyWqwd09HQOZiB_-6HpMnhF-WR5PclYPqSSRRNDqHRX1OnCazgob6lNhMYOWMpa80Jn/exec';
 
         if (utr.length < 12) {
-            alert("Bhai, 12-digit UTR dalo!");
+            alert("Bhai, 12 digit ka UTR sahi se dalo!");
             return;
         }
 
-        // Sheet mein wahi amount jayega jo user ne edit kiya hai
         fetch(scriptURL, {
             method: 'POST',
             mode: 'no-cors',
@@ -58,9 +86,12 @@
                 amount: amt,
                 details: 'UTR: ' + utr
             })
-        }).then(() => {
-            alert("Recharge Submitted for ₹" + amt);
+        }).then(function() {
+            alert("Request Sent! Sheet check karein.");
             window.location.href = 'home.html';
         });
     }
 </script>
+
+</body>
+</html>
