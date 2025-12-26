@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recharge - JCB</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #f0f0f0; padding-bottom: 20px; }
+        
+        .header { background: #222; color: white; padding: 15px; display: flex; align-items: center; }
+        .header i { font-size: 20px; cursor: pointer; }
+        .header h3 { flex: 1; text-align: center; margin-right: 20px; }
+
+        .balance-box { background: white; margin: 15px; padding: 20px; border-radius: 15px; border: 1px solid #ddd; }
+        .amount-display { font-size: 14px; color: #888; margin-bottom: 10px; }
+        .input-area { display: flex; align-items: center; background: #f9f9f9; padding: 15px; border-radius: 12px; border: 1px solid #eee; }
+        .input-area span { font-size: 24px; font-weight: bold; margin-right: 10px; }
+        input { border: none; background: transparent; outline: none; font-size: 24px; font-weight: bold; width: 100%; }
+
+        .quick-amounts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 15px; margin-top: 10px; }
+        .amt-btn { background: white; padding: 15px; border-radius: 10px; border: 1px solid #ddd; text-align: center; font-weight: bold; cursor: pointer; }
+        .amt-btn.active { border-color: #333; background: #f0f0f0; }
+
+        .method-box { background: white; margin: 15px; border-radius: 15px; padding: 15px; }
+        .method-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .method-item:last-child { border-bottom: none; }
+        .method-item input { width: 18px; height: 18px; margin-right: 12px; }
+
+        .confirm-btn { width: 90%; margin: 25px auto; display: block; background: #333; color: white; padding: 16px; border-radius: 50px; border: none; font-size: 18px; font-weight: bold; cursor: pointer; }
+        
+        .notice { padding: 15px; font-size: 13px; color: #666; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <i class="fas fa-chevron-left" onclick="location.href='home.html'"></i>
+        <h3>Recharge</h3>
+    </div>
+
+    <div class="balance-box">
+        <p class="amount-display">Balance: <span style="color:#000; font-weight:bold;">₹ 0.00</span></p>
+        <div class="input-area">
+            <span>₹</span>
+            <input type="number" id="amt_input" value="570">
+        </div>
+    </div>
+
+    <div class="quick-amounts">
+        <div class="amt-btn" onclick="setAmt(570)">570</div>
+        <div class="amt-btn" onclick="setAmt(1140)">1140</div>
+        <div class="amt-btn" onclick="setAmt(2500)">2500</div>
+        <div class="amt-btn" onclick="setAmt(5000)">5000</div>
+    </div>
+
+    <div class="method-box">
+        <p style="font-weight: bold; margin-bottom: 10px;">Deposit channel</p>
+        <div class="method-item"><input type="radio" name="pay" checked> Pay - 1</div>
+        <div class="method-item"><input type="radio" name="pay"> Pay - 2</div>
+    </div>
+
+    <button class="confirm-btn" onclick="goPay()">Confirm recharge</button>
+
+    <div class="notice">
+        <p><strong>Instructions:</strong></p>
+        <p>1. Minimum recharge ₹570.</p>
+        <p>2. After payment, you MUST submit the 12-digit UTR number.</p>
+        <p>3. Recharge is available 24/7.</p>
+    </div>
+
+    <script>
+        function setAmt(v) {
+            document.getElementById('amt_input').value = v;
+        }
+
+        function goPay() {
+            let amount = document.getElementById('amt_input').value;
+            if(amount < 570) {
+                alert("Minimum amount is 570");
+                return;
+            }
+            // Amount save karke payment page par bhejo
+            localStorage.setItem('last_recharge_amt', amount);
+            window.location.href = 'pay.html';
+        }
+    </script>
+</body>
+</html>
