@@ -1,57 +1,65 @@
-<div style="background: #1e1e1e; padding: 25px; border-radius: 20px; text-align: center; color: white;">
-    <h3 style="color: #ffc107;">Recharge Amount: ₹570</h3>
-    <p style="font-size: 13px; color: #aaa; margin-bottom: 20px;">Click niche karein aur kisi bhi UPI app se pay karein</p>
+<div class="recharge-box" style="background: #1e1e1e; padding: 20px; border-radius: 15px; text-align: center; color: white;">
+    <h3 style="color: #ffc107;">Recharge Section</h3>
+    
+    <div style="margin: 20px 0;">
+        <p style="font-size: 14px; color: #aaa;">Amount Edit Karein (e.g. Test ke liye 1 dalo):</p>
+        <input type="number" id="recharge_amount" value="570" style="width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ffc107; background: #2a2a2a; color: white; font-size: 20px; text-align: center; font-weight: bold;">
+    </div>
 
-    <button onclick="startPayment()" style="width: 100%; background: #ffc107; color: black; padding: 15px; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer;">
-        <i class="fas fa-mobile-alt"></i> PAY WITH UPI APP
+    <button onclick="payNow()" style="width: 100%; background: #ffc107; color: black; padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer;">
+        PAY WITH UPI APP
     </button>
 
-    <div id="utr_box" style="display: none; margin-top: 25px; padding-top: 20px; border-top: 1px solid #333;">
-        <p style="color: #ffc107; font-size: 14px;">Payment successful hone ke baad 12-digit UTR dalo:</p>
-        <input type="number" id="utr_value" placeholder="Enter 12-digit UTR" style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; background: #2a2a2a; color: white; border: 1px solid #444;">
-        <button onclick="submitRechargeData()" style="width: 100%; background: #28a745; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold;">SUBMIT TO DASHBOARD</button>
+    <div id="utr_section" style="display: none; margin-top: 25px; border-top: 1px solid #333; padding-top: 20px;">
+        <input type="number" id="utr_input" placeholder="Enter 12-Digit UTR Number" style="width: 100%; padding: 12px; border-radius: 8px; background: #2a2a2a; color: white; border: 1px solid #444;">
+        <button onclick="submitRecharge()" style="width: 100%; background: #28a745; color: white; padding: 12px; border: none; border-radius: 8px; margin-top: 10px; font-weight: bold;">SUBMIT RECHARGE</button>
     </div>
 </div>
 
 <script>
-    function startPayment() {
+    function payNow() {
+        // User jo bhi amount likhega (570 ya 1), wo yahan se pick hoga
+        const amt = document.getElementById('recharge_amount').value;
         const upiID = "8968146117@ybl"; // Aapki ID
-        const amount = 570;
-        const name = "JCB Mining";
         
-        // UPI Deep Link jo saare apps dikhayega
-        const upiUrl = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
-        
+        if (!amt || amt < 1) {
+            alert("Sahi amount dalo bhai!");
+            return;
+        }
+
+        // UPI link user ke likhe huye amount (amt) ke saath khulega
+        const upiUrl = `upi://pay?pa=${upiID}&pn=JCB_Mining&am=${amt}&cu=INR`;
         window.location.href = upiUrl;
 
-        // 2 second baad UTR box dikhao taaki user payment ke baad wapas aaye toh dikhe
+        // UTR box dikhao
         setTimeout(() => {
-            document.getElementById('utr_box').style.display = 'block';
+            document.getElementById('utr_section').style.display = 'block';
         }, 2000);
     }
 
-    function submitRechargeData() {
-        const utr = document.getElementById('utr_value').value;
+    function submitRecharge() {
+        const amt = document.getElementById('recharge_amount').value;
+        const utr = document.getElementById('utr_input').value;
         const phone = localStorage.getItem('userPhone'); // User ka apna number
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyWqwd09HQOZiB_-6HpMnhF-WR5PclYPqSSRRNDqHRX1OnCazgob6lNhMYOWMpa80Jn/exec';
 
         if (utr.length < 12) {
-            alert("Bhai, sahi 12-digit UTR number dalo!");
+            alert("Bhai, 12-digit UTR dalo!");
             return;
         }
 
-        // Sheet mein data save karna
+        // Sheet mein wahi amount jayega jo user ne edit kiya hai
         fetch(scriptURL, {
             method: 'POST',
             mode: 'no-cors',
             body: JSON.stringify({
                 phone: phone,
                 type: 'RECHARGE',
-                amount: '570',
+                amount: amt,
                 details: 'UTR: ' + utr
             })
         }).then(() => {
-            alert("Recharge Request Sent! Approval mein 10-15 mins lagenge.");
+            alert("Recharge Submitted for ₹" + amt);
             window.location.href = 'home.html';
         });
     }
