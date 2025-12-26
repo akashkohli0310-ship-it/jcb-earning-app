@@ -4,28 +4,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background: #f4f4f4; margin: 0; font-family: sans-serif; padding-bottom: 70px; }
-        .banner { width: 100%; height: 200px; background: url('https://m.media-amazon.com/images/I/71u9S+K+zVL.jpg') center/cover; }
-        .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; padding: 15px; margin: 10px; border-radius: 10px; text-align: center; font-size: 12px; }
-        .menu-item i { font-size: 24px; color: #ffc107; display: block; margin-bottom: 5px; }
-        .nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 10px; border-top: 1px solid #ddd; }
+        body { background: #f4f4f4; margin: 0; font-family: sans-serif; padding-bottom: 80px; }
+        .banner { width: 100%; height: 180px; background: url('https://m.media-amazon.com/images/I/71u9S+K+zVL.jpg') center/cover; }
+        .balance-card { background: #333; color: #fff; padding: 20px; margin: 10px; border-radius: 15px; }
+        .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; padding: 15px; margin: 10px; border-radius: 10px; text-align: center; font-size: 11px; }
+        .menu-item i { font-size: 22px; color: #ffc107; display: block; margin-bottom: 5px; }
+        
+        /* Plan Design */
+        .product-card { background: #fff; margin: 15px; padding: 15px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .plan-header { color: #333; font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+        .plan-details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .plan-details div { background: #f9f9f9; padding: 8px; border-radius: 5px; font-size: 13px; }
+        .buy-btn { width: 100%; background: #ffc107; color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; }
+        
+        .nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px; border-top: 1px solid #ddd; }
+        .nav a { text-decoration: none; color: #888; text-align: center; font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="banner"></div>
-    <div style="background:#333; color:#fff; padding:20px; margin:10px; border-radius:10px;">
-        <p>Balance</p><h2>₹ <span id="b">0.00</span></h2>
+
+    <div class="balance-card">
+        <p style="margin:0; opacity:0.8;">Total Balance</p>
+        <h2 style="margin:5px 0;">₹ <span id="b">0.00</span></h2>
     </div>
+
     <div class="menu-grid">
         <div class="menu-item" onclick="location.href='recharge.html'"><i class="fas fa-plus-circle"></i>Recharge</div>
         <div class="menu-item" onclick="location.href='withdraw.html'"><i class="fas fa-wallet"></i>Withdraw</div>
-        <div class="menu-item" onclick="alert('Income: ₹0')"><i class="fas fa-chart-line"></i>Income</div>
+        <div class="menu-item" onclick="alert('Daily: ₹120 | Min Withdraw: ₹350')"><i class="fas fa-chart-line"></i>Plan Info</div>
         <div class="menu-item" onclick="window.location.href='https://t.me/your_telegram'"><i class="fas fa-headset"></i>Support</div>
     </div>
-    <div class="nav">
-        <a href="home.html" style="color:#ffc107; text-decoration:none;"><i class="fas fa-home"></i><br>Home</a>
-        <a href="my.html" style="color:#888; text-decoration:none;"><i class="fas fa-user"></i><br>My</a>
+
+    <h3 style="margin-left:15px;">Hot Projects</h3>
+    
+    <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/71u9S+K+zVL.jpg" style="width:100%; border-radius:8px; margin-bottom:10px;">
+        <div class="plan-header">JCB Mining Plan - 1</div>
+        <div class="plan-details">
+            <div>Price: <b>₹570</b></div>
+            <div>Daily: <b>₹120</b></div>
+            <div>Min Withdraw: <b>₹350</b></div>
+            <div>Days: <b>40 Days</b></div>
+        </div>
+        <button class="buy-btn" onclick="buyJCB()">INVEST NOW</button>
     </div>
-    <script>document.getElementById('b').innerText = localStorage.getItem('balance') || '0.00';</script>
+
+    <div class="nav">
+        <a href="home.html" style="color:#ffc107;"><i class="fas fa-home"></i><br>Home</a>
+        <a href="my.html"><i class="fas fa-user"></i><br>My</a>
+    </div>
+
+    <script>
+        document.getElementById('b').innerText = localStorage.getItem('balance') || '0.00';
+        
+        function buyJCB() {
+            let bal = parseFloat(localStorage.getItem('balance')) || 0;
+            if (bal >= 570) {
+                alert('Success! Plan Activated. You will get ₹120 daily.');
+                localStorage.setItem('balance', (bal - 570).toFixed(2));
+                location.reload();
+            } else {
+                alert('Insufficient Balance! Please Recharge ₹570.');
+                location.href = 'recharge.html';
+            }
+        }
+    </script>
 </body>
 </html>
