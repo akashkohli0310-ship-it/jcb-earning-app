@@ -5,9 +5,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { background: #f4f4f4; margin: 0; font-family: sans-serif; padding-bottom: 80px; }
-        /* JCB Banner fix */
-        .banner { width: 100%; height: 200px; background: url('https://img.ready.mobi/https://www.jcb.com/en-in/-/media/products/backhoe-loaders/3dx-eco/3dx-eco-standard/jcb_3dx_eco_v2_1.jpg') center/cover; border-bottom: 5px solid #ffc107; }
-        .balance-card { background: #1a1a1a; color: #ffc107; padding: 20px; margin: 10px; border-radius: 15px; }
+        .banner { width: 100%; height: 210px; background: url('22242.jpg') center/cover; border-bottom: 5px solid #ffc107; }
+        .balance-card { background: #1a1a1a; color: #ffc107; padding: 20px; margin: 10px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; padding: 15px; margin: 10px; border-radius: 12px; text-align: center; font-size: 11px; }
         .menu-item i { font-size: 24px; color: #ffc107; display: block; margin-bottom: 5px; }
         .product-card { background: #fff; margin: 15px; padding: 15px; border-radius: 12px; border: 1px solid #ddd; }
@@ -29,25 +28,8 @@
         <div class="menu-item" onclick="window.location.href='https://t.me/your_telegram'"><i class="fas fa-headset"></i>Support</div>
     </div>
     <div class="product-card">
-        <img src="https://m.media-amazon.com/images/I/71u9S+K+zVL.jpg" style="width:100%; border-radius:8px;">
+        <img src="22243.png" style="width:100%; border-radius:8px;">
         <h3>JCB Heavy Mining - ₹570</h3>
-        <p style="font-size: 13px; color: #666;">Daily: <b>₹120</b> | Min Withdraw: <b>₹350</b></p>
-        <button class="buy-btn" onclick="buyJCB()">INVEST NOW</button>
-    </div>
-    <div class="nav">
-        <a href="home.html" style="color:#ffc107;"><i class="fas fa-home"></i><br>Home</a>
-        <a href="my.html"><i class="fas fa-user"></i><br>My</a>
-    </div>
-    <script>
-        document.getElementById('b').innerText = localStorage.getItem('balance') || '0.00';
-        function buyJCB() {
-            let bal = parseFloat(localStorage.getItem('balance')) || 0;
-            if (bal >= 570) {
-                alert('Plan Activated! You will get ₹120 daily.');
-                localStorage.setItem('balance', (bal - 570).toFixed(2));
-                location.reload();
-            } else { location.href = 'recharge.html'; }
-        }
-    </script>
-</body>
-</html>
+        <p style="font-size: 13px; color: #666;">Daily: <b>₹120</b> | Cycle: <b>40 Days</b></p>
+        <button class="buy-btn"
+            
