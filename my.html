@@ -1,41 +1,106 @@
-<div class="profile-card" style="background: #1e1e1e; padding: 20px; border-radius: 15px; text-align: center; color: white; border-top: 3px solid #ffc107;">
-    <div class="user-avatar" style="margin-bottom: 10px;">
-        <i class="fas fa-user-circle" style="font-size: 50px; color: #ffc107;"></i>
-    </div>
-    
-    <h3 id="display_phone" style="margin: 5px 0; letter-spacing: 1px;">Loading...</h3>
-    <p style="font-size: 12px; color: #888;">Member ID: <span id="user_id_val">0000</span></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JCB Mining - My Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #121212; color: white; padding-bottom: 80px; }
+        
+        /* Profile Header */
+        .profile-header { background: #1e1e1e; padding: 40px 20px; text-align: center; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; border-bottom: 4px solid #ffc107; }
+        .user-icon { font-size: 70px; color: #ffc107; margin-bottom: 10px; }
+        #display_phone { font-size: 22px; letter-spacing: 1px; margin-bottom: 5px; }
+        .member-id { color: #888; font-size: 14px; }
 
-    <div class="balance-box" style="background: #2a2a2a; margin-top: 15px; padding: 15px; border-radius: 10px;">
-        <p style="font-size: 13px; color: #aaa;">Total Balance</p>
-        <h2 style="color: #ffc107;">₹<span id="display_balance">0.00</span></h2>
+        /* Balance Card */
+        .balance-section { padding: 20px; margin-top: -30px; }
+        .balance-card { background: linear-gradient(135deg, #ffc107, #e5af06); padding: 25px; border-radius: 20px; color: black; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .balance-card p { font-size: 14px; font-weight: bold; opacity: 0.8; }
+        .balance-card h1 { font-size: 36px; margin-top: 5px; }
+
+        /* Menu List */
+        .menu-container { padding: 20px; }
+        .menu-item { background: #1e1e1e; padding: 18px; border-radius: 15px; margin-bottom: 12px; display: flex; align-items: center; text-decoration: none; color: white; transition: 0.3s; }
+        .menu-item i { width: 30px; font-size: 20px; color: #ffc107; }
+        .menu-item span { flex: 1; margin-left: 10px; font-weight: 500; }
+        .menu-item .arrow { color: #444; font-size: 14px; }
+
+        /* Logout */
+        .logout-btn { margin: 20px; padding: 15px; background: #333; color: #ff4444; border: none; width: calc(100% - 40px); border-radius: 15px; font-weight: bold; cursor: pointer; }
+
+        /* Bottom Navigation */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #1e1e1e; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #333; }
+        .nav-link { color: #666; text-decoration: none; text-align: center; font-size: 12px; }
+        .nav-link.active { color: #ffc107; }
+        .nav-link i { display: block; font-size: 20px; margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="profile-header">
+        <div class="user-icon"><i class="fas fa-user-circle"></i></div>
+        <h2 id="display_phone">Loading...</h2>
+        <p class="member-id">Member ID: <span id="user_id_val">0000</span></p>
     </div>
-</div>
+
+    <div class="balance-section">
+        <div class="balance-card">
+            <p>TOTAL ASSETS</p>
+            <h1>₹<span id="display_balance">0.00</span></h1>
+        </div>
+    </div>
+
+    <div class="menu-container">
+        <a href="recharge.html" class="menu-item">
+            <i class="fas fa-wallet"></i>
+            <span>Recharge</span>
+            <i class="fas fa-chevron-right arrow"></i>
+        </a>
+        <a href="#" class="menu-item">
+            <i class="fas fa-hand-holding-usd"></i>
+            <span>Withdraw (Soon)</span>
+            <i class="fas fa-chevron-right arrow"></i>
+        </a>
+        <a href="#" class="menu-item">
+            <i class="fas fa-users"></i>
+            <span>My Team</span>
+            <i class="fas fa-chevron-right arrow"></i>
+        </a>
+        <button class="logout-btn" onclick="logout()">LOGOUT ACCOUNT</button>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="home.html" class="nav-link"><i class="fas fa-home"></i>Home</a>
+        <a href="#" class="nav-link"><i class="fas fa-gem"></i>Invest</a>
+        <a href="home.html" class="nav-link active"><i class="fas fa-user"></i>My</a>
+    </div>
 
 <script>
-    // 1. Page khulte hi check karo ki kaunsa user login hai
+    // Page load hote hi user details check karo
     window.onload = function() {
-        const savedPhone = localStorage.getItem('userPhone');
-        const savedBalance = localStorage.getItem('balance') || "0.00";
+        const phone = localStorage.getItem('userPhone');
+        // Agar balance nahi hai toh 0 dikhao
+        const balance = localStorage.getItem('balance') || "0.00";
 
-        // 2. Agar number mil gaya toh screen par update karo
-        if (savedPhone) {
-            document.getElementById('display_phone').innerText = savedPhone;
-            // User ID ke liye phone ke aakhri 4 digits use kar rahe hain
-            document.getElementById('user_id_val').innerText = savedPhone.substring(6);
+        if (phone) {
+            document.getElementById('display_phone').innerText = phone;
+            // Phone ke last 4 digit ko ID bana diya
+            document.getElementById('user_id_val').innerText = phone.substring(6);
+            document.getElementById('display_balance').innerText = balance;
         } else {
-            // Agar login nahi hai toh login page par bhej do
-            window.location.href = 'index.html';
+            // Agar phone nahi mila matlab login nahi hai
+            window.location.href = 'index.html'; 
         }
-
-        // 3. Balance update karo
-        document.getElementById('display_balance').innerText = savedBalance;
     };
 
-    // Logout Function (Taki user badal sake)
-    function handleLogout() {
-        localStorage.removeItem('userPhone');
-        localStorage.removeItem('balance');
+    function logout() {
+        localStorage.clear();
         window.location.href = 'index.html';
     }
 </script>
+
+</body>
+</html>
