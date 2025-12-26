@@ -5,13 +5,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { margin: 0; background: #f8f9fa; font-family: sans-serif; padding-bottom: 80px; }
-        .profile-bg { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://img.freepik.com/free-photo/yellow-excavator-working-construction-site_1150-18151.jpg') center/cover; height: 180px; padding: 20px; color: white; display: flex; align-items: center; }
-        .avatar { width: 70px; height: 70px; border-radius: 10px; border: 2px solid #ffc107; background: #fff; padding: 5px; }
+        .profile-bg { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://m.media-amazon.com/images/I/71u9S+K+zVL.jpg') center/cover; height: 180px; padding: 20px; color: white; display: flex; align-items: center; }
+        .avatar { width: 70px; height: 70px; border-radius: 8px; border: 2px solid #ffc107; background: #fff; padding: 5px; }
         .user-info { margin-left: 15px; }
         .phone-num { font-size: 20px; font-weight: bold; margin: 0; color: #ffc107; }
         .bal-card { display: grid; grid-template-columns: 1fr 1fr; background: #fff; margin: -30px 15px 15px 15px; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; }
         .menu-list { background: #fff; margin: 0 15px; border-radius: 12px; overflow: hidden; }
-        .menu-item { padding: 18px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; }
+        .menu-item { padding: 18px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
         .menu-left i { font-size: 20px; color: #ffc107; margin-right: 15px; }
         .nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px; border-top: 1px solid #eee; }
     </style>
@@ -30,9 +30,8 @@
     </div>
     <div class="menu-list">
         <div class="menu-item" onclick="location.href='withdraw.html'"><div class="menu-left"><i class="fas fa-wallet"></i><span>Withdrawal</span></div><i class="fas fa-chevron-right"></i></div>
-        <div class="menu-item"><div class="menu-left"><i class="fas fa-info-circle"></i><span>About Us</span></div><i class="fas fa-chevron-right"></i></div>
         <div class="menu-item" onclick="window.location.href='https://t.me/your_telegram'"><div class="menu-left"><i class="fas fa-headset"></i><span>Support</span></div><i class="fas fa-chevron-right"></i></div>
-        <div class="menu-item" onclick="location.href='index.html'" style="color:red;"><div class="menu-left"><i class="fas fa-power-off"></i><span>Logout</span></div><i class="fas fa-chevron-right"></i></div>
+        <div class="menu-item" onclick="location.href='index.html'" style="color:red;"><div class="menu-left"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div><i class="fas fa-chevron-right"></i></div>
     </div>
     <div class="nav">
         <a href="home.html" style="text-decoration:none; color:#888;"><i class="fas fa-home"></i><br>Home</a>
