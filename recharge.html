@@ -1,89 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recharge - JCB</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background: #f0f0f0; padding-bottom: 20px; }
-        
-        .header { background: #222; color: white; padding: 15px; display: flex; align-items: center; }
-        .header i { font-size: 20px; cursor: pointer; }
-        .header h3 { flex: 1; text-align: center; margin-right: 20px; }
-
-        .balance-box { background: white; margin: 15px; padding: 20px; border-radius: 15px; border: 1px solid #ddd; }
-        .amount-display { font-size: 14px; color: #888; margin-bottom: 10px; }
-        .input-area { display: flex; align-items: center; background: #f9f9f9; padding: 15px; border-radius: 12px; border: 1px solid #eee; }
-        .input-area span { font-size: 24px; font-weight: bold; margin-right: 10px; }
-        input { border: none; background: transparent; outline: none; font-size: 24px; font-weight: bold; width: 100%; }
-
-        .quick-amounts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 15px; margin-top: 10px; }
-        .amt-btn { background: white; padding: 15px; border-radius: 10px; border: 1px solid #ddd; text-align: center; font-weight: bold; cursor: pointer; }
-        .amt-btn.active { border-color: #333; background: #f0f0f0; }
-
-        .method-box { background: white; margin: 15px; border-radius: 15px; padding: 15px; }
-        .method-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
-        .method-item:last-child { border-bottom: none; }
-        .method-item input { width: 18px; height: 18px; margin-right: 12px; }
-
-        .confirm-btn { width: 90%; margin: 25px auto; display: block; background: #333; color: white; padding: 16px; border-radius: 50px; border: none; font-size: 18px; font-weight: bold; cursor: pointer; }
-        
-        .notice { padding: 15px; font-size: 13px; color: #666; line-height: 1.5; }
+        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
+        .amt-input { width: 100%; padding: 15px; margin: 20px 0; border: 2px solid #ffc107; border-radius: 10px; font-size: 20px; text-align: center; font-weight: bold; }
+        .pay-btn { width: 100%; background: #28a745; color: white; border: none; padding: 15px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        .utr-box { margin-top: 20px; padding-top: 20px; border-top: 1px dashed #ccc; }
+        input[type="text"] { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
     </style>
 </head>
 <body>
+    <div onclick="history.back()" style="margin-bottom:20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> Back</div>
+    
+    <div class="card">
+        <h3>Deposit Funds</h3>
+        <p style="color: #666;">Enter amount to recharge (Min: ₹570)</p>
+        <input type="number" id="recharge_amt" class="amt-input" value="570">
+        
+        <button class="pay-btn" onclick="openUPI()">PAY VIA UPI APP <i class="fab fa-google-pay"></i></button>
 
-    <div class="header">
-        <i class="fas fa-chevron-left" onclick="location.href='home.html'"></i>
-        <h3>Recharge</h3>
-    </div>
-
-    <div class="balance-box">
-        <p class="amount-display">Balance: <span style="color:#000; font-weight:bold;">₹ 0.00</span></p>
-        <div class="input-area">
-            <span>₹</span>
-            <input type="number" id="amt_input" value="570">
+        <div class="utr-box">
+            <p style="font-size: 13px; color: #555;">After payment, enter 12-digit UTR number:</p>
+            <input type="text" id="utr_input" placeholder="Enter 12 Digit UTR Number">
+            <button onclick="submitUTR()" style="width:100%; background:#333; color:white; padding:10px; border:none; border-radius:5px;">Submit UTR</button>
         </div>
     </div>
 
-    <div class="quick-amounts">
-        <div class="amt-btn" onclick="setAmt(570)">570</div>
-        <div class="amt-btn" onclick="setAmt(1140)">1140</div>
-        <div class="amt-btn" onclick="setAmt(2500)">2500</div>
-        <div class="amt-btn" onclick="setAmt(5000)">5000</div>
-    </div>
-
-    <div class="method-box">
-        <p style="font-weight: bold; margin-bottom: 10px;">Deposit channel</p>
-        <div class="method-item"><input type="radio" name="pay" checked> Pay - 1</div>
-        <div class="method-item"><input type="radio" name="pay"> Pay - 2</div>
-    </div>
-
-    <button class="confirm-btn" onclick="goPay()">Confirm recharge</button>
-
-    <div class="notice">
-        <p><strong>Instructions:</strong></p>
-        <p>1. Minimum recharge ₹570.</p>
-        <p>2. After payment, you MUST submit the 12-digit UTR number.</p>
-        <p>3. Recharge is available 24/7.</p>
-    </div>
-
     <script>
-        function setAmt(v) {
-            document.getElementById('amt_input').value = v;
-        }
-
-        function goPay() {
-            let amount = document.getElementById('amt_input').value;
-            if(amount < 570) {
-                alert("Minimum amount is 570");
+        function openUPI() {
+            let amount = document.getElementById('recharge_amt').value;
+            if (amount < 570) {
+                alert("Minimum recharge is ₹570");
                 return;
             }
-            // Amount save karke payment page par bhejo
-            localStorage.setItem('last_recharge_amt', amount);
-            window.location.href = 'pay.html';
+            // Sahi UPI Deep Link (Replace your UPI ID here)
+            let upiId = "8968146117@ybl"; 
+            let name = "JCB Earning App";
+            let upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+
+            // Isse direct UPI Apps khul jayenge
+            window.location.href = upiLink;
+        }
+
+        function submitUTR() {
+            let utr = document.getElementById('utr_input').value;
+            if (utr.length < 12) {
+                alert("Please enter a valid 12-digit UTR number");
+            } else {
+                alert("UTR Submitted! Balance will be added after verification.");
+                location.href = 'home.html';
+            }
         }
     </script>
 </body>
