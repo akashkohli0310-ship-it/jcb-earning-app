@@ -9,20 +9,15 @@
         .balance-card { background: #1a1a1a; color: #ffc107; padding: 20px; margin: 10px; border-radius: 15px; }
         .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; padding: 15px; margin: 10px; border-radius: 12px; text-align: center; }
         .menu-item i { font-size: 24px; color: #ffc107; display: block; margin-bottom: 5px; }
-
-        /* Share Section Fix */
-        .share-box { background: #fff; margin: 15px; padding: 15px; border-radius: 12px; border: 1px dashed #ffc107; text-align: center; }
-        .share-title { font-size: 14px; font-weight: bold; color: #333; margin-bottom: 10px; display: block; }
-        .link-area { background: #f9f9f9; padding: 10px; border-radius: 8px; font-size: 11px; color: #666; word-break: break-all; margin-bottom: 10px; border: 1px solid #eee; }
-        .copy-btn { background: #000; color: #ffc107; border: none; padding: 8px 20px; border-radius: 5px; font-size: 13px; font-weight: bold; cursor: pointer; width: 100%; }
-
         .product-card { background: #fff; margin: 15px; padding: 15px; border-radius: 12px; border: 1px solid #ddd; }
         .product-img { width: 100%; border-radius: 8px; }
         .buy-btn { width: 100%; background: #ffc107; color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; margin-top: 10px; cursor: pointer; }
         
+        /* Fixed 3-Button Navigation */
         .nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-item { text-decoration: none; color: #888; text-align: center; font-size: 12px; width: 50%; }
+        .nav-item { text-decoration: none; color: #888; text-align: center; font-size: 12px; width: 33%; }
         .nav-item.active { color: #ffc107; font-weight: bold; }
+        .nav-item i { font-size: 20px; display: block; margin-bottom: 2px; }
     </style>
 </head>
 <body>
@@ -39,12 +34,6 @@
         <div class="menu-item" onclick="window.location.href='https://t.me/your_telegram'"><i class="fas fa-headset"></i>Support</div>
     </div>
 
-    <div class="share-box">
-        <span class="share-title"><i class="fas fa-share-alt"></i> Invite Friends & Earn Commission</span>
-        <div class="link-area" id="shareLink">https://akashkohli0310-ship-it.github.io/jcb-earning-app/home.html</div>
-        <button class="copy-btn" onclick="copyLink()">COPY INVITE LINK</button>
-    </div>
-
     <div class="product-card">
         <img src="https://i.ibb.co/FR1vrk8/182326.jpg" class="product-img">
         <h3>JCB Heavy Mining - ₹570</h3>
@@ -53,20 +42,13 @@
     </div>
 
     <div class="nav">
-        <a href="home.html" class="nav-item active"><i class="fas fa-home"></i><br>Home</a>
-        <a href="my.html" class="nav-item"><i class="fas fa-user"></i><br>My</a>
+        <a href="home.html" class="nav-item active"><i class="fas fa-home"></i>Home</a>
+        <a href="share.html" class="nav-item"><i class="fas fa-share-alt"></i>Share</a>
+        <a href="my.html" class="nav-item"><i class="fas fa-user"></i>My</a>
     </div>
 
     <script>
         document.getElementById('b').innerText = localStorage.getItem('balance') || '0.00';
-
-        function copyLink() {
-            var linkText = document.getElementById("shareLink").innerText;
-            navigator.clipboard.writeText(linkText).then(function() {
-                alert("Link Copied! Ab apne dosto ko share karo.");
-            });
-        }
-
         function buyJCB() {
             let bal = parseFloat(localStorage.getItem('balance')) || 0;
             if (bal >= 570) {
