@@ -1,20 +1,97 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></head>
-<body style="margin:0; background:#f4f4f4; font-family:sans-serif;">
-    <div style="background:#333; color:white; padding:40px 20px; text-align:center;">
-        <h3>User: <span id="u">888xxx</span></h3>
-        <h2>₹ <span id="m_b">0.00</span></h2>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { margin: 0; background: #f8f9fa; font-family: sans-serif; padding-bottom: 80px; }
+        
+        /* JCB Theme Header */
+        .profile-bg { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://m.media-amazon.com/images/I/71u9S+K+zVL.jpg') center/cover; height: 180px; padding: 20px; color: white; display: flex; align-items: center; }
+        .avatar-section { position: relative; }
+        /* JCB Logo placeholder */
+        .avatar { width: 70px; height: 70px; border-radius: 10px; border: 2px solid #ffc107; background: #fff; padding: 5px; }
+        .vip-tag { position: absolute; bottom: -5px; left: 5px; background: #ffc107; color: #000; font-size: 10px; padding: 2px 8px; border-radius: 5px; font-weight: bold; }
+        .user-info { margin-left: 15px; }
+        .phone-num { font-size: 20px; font-weight: bold; margin: 0; color: #ffc107; }
+        .id-text { font-size: 12px; opacity: 0.8; margin-top: 5px; }
+
+        .progress-container { background: rgba(255,255,255,0.2); height: 6px; border-radius: 5px; margin-top: 15px; width: 200px; }
+        .progress-bar { background: #ffc107; width: 45%; height: 100%; border-radius: 5px; }
+
+        /* Balance Card */
+        .bal-card { display: grid; grid-template-columns: 1fr 1fr; background: #fff; margin: -30px 15px 15px 15px; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; }
+        .bal-item h2 { margin: 5px 0; color: #333; font-size: 22px; }
+        .bal-item p { font-size: 13px; color: #888; margin: 0; }
+
+        /* Menu List */
+        .menu-list { background: #fff; margin: 0 15px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .menu-item { padding: 18px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+        .menu-left { display: flex; align-items: center; }
+        .menu-left i { font-size: 20px; color: #ffc107; margin-right: 15px; width: 25px; }
+        .menu-left span { font-size: 15px; color: #333; font-weight: 500; }
+        .fa-chevron-right { color: #ccc; font-size: 12px; }
+
+        /* Bottom Nav */
+        .nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px; border-top: 1px solid #eee; }
+        .nav a { text-decoration: none; color: #888; text-align: center; font-size: 11px; }
+    </style>
+</head>
+<body>
+
+    <div class="profile-bg">
+        <div class="avatar-section">
+            <img src="https://logodownload.org/wp-content/uploads/2020/06/jcb-logo.png" class="avatar">
+            <div class="vip-tag">VIP MEMBER</div>
+        </div>
+        <div class="user-info">
+            <p class="phone-num" id="u_phone">918968146117</p>
+            <p class="id-text">JCB Mining ID: 13606</p>
+            <div class="progress-container"><div class="progress-bar"></div></div>
+            <p style="font-size:10px; margin-top:5px; color: #ffc107;">Level 1 Mining Status</p>
+        </div>
     </div>
-    <div style="background:white; margin:20px; border-radius:10px;">
-        <div onclick="location.href='withdraw.html'" style="padding:15px; border-bottom:1px solid #eee;"><i class="fas fa-university"></i> Withdrawal</div>
-        <div onclick="alert('Team Size: 0')" style="padding:15px; border-bottom:1px solid #eee;"><i class="fas fa-users"></i> My Team</div>
-        <div onclick="window.location.href='https://t.me/your_telegram'" style="padding:15px; border-bottom:1px solid #eee;"><i class="fas fa-headset"></i> Online Support</div>
-        <div onclick="location.href='index.html'" style="padding:15px;"><i class="fas fa-sign-out-alt"></i> Logout</div>
+
+    <div class="bal-card">
+        <div class="bal-item">
+            <h2 id="balance">0.00</h2>
+            <p>My Balance</p>
+        </div>
+        <div class="bal-item">
+            <h2>0.00</h2>
+            <p>Daily Income</p>
+        </div>
     </div>
+
+    <div class="menu-list">
+        <div class="menu-item" onclick="location.href='withdraw.html'">
+            <div class="menu-left"><i class="fas fa-wallet"></i> <span>Withdraw Funds</span></div>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-item">
+            <div class="menu-left"><i class="fas fa-list-alt"></i> <span>Earnings Record</span></div>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-item" onclick="window.location.href='https://t.me/your_telegram'">
+            <div class="menu-left"><i class="fas fa-headset"></i> <span>Customer Support</span></div>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        <div class="menu-item" onclick="location.href='index.html'" style="border-bottom:none;">
+            <div class="menu-left"><i class="fas fa-sign-out-alt" style="color: #ff4d4d;"></i> <span style="color: #ff4d4d;">Sign Out</span></div>
+            <i class="fas fa-chevron-right"></i>
+        </div>
+    </div>
+
+    <div class="nav">
+        <a href="home.html"><i class="fas fa-home"></i><br>Home</a>
+        <a href="#"><i class="fas fa-chart-line"></i><br>Income</a>
+        <a href="#"><i class="fas fa-users"></i><br>Team</a>
+        <a href="my.html" style="color:#ffc107; font-weight:bold;"><i class="fas fa-user"></i><br>My</a>
+    </div>
+
     <script>
-        document.getElementById('m_b').innerText = localStorage.getItem('balance') || '0.00';
-        document.getElementById('u').innerText = localStorage.getItem('userPhone') || 'Guest';
+        document.getElementById('balance').innerText = localStorage.getItem('balance') || '0.00';
+        document.getElementById('u_phone').innerText = localStorage.getItem('userPhone') || '8968146117';
     </script>
 </body>
 </html>
