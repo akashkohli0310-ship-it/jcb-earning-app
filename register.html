@@ -8,23 +8,16 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: #121212; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        
         .register-card { background: #1e1e1e; width: 100%; max-width: 400px; padding: 30px; border-radius: 20px; border-top: 5px solid #ffc107; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .logo-section { text-align: center; margin-bottom: 30px; }
         .logo-section i { font-size: 50px; color: #ffc107; }
-        .logo-section h2 { color: #fff; margin-top: 10px; letter-spacing: 1px; }
-
+        .logo-section h2 { color: #fff; margin-top: 10px; }
         .input-group { position: relative; margin-bottom: 20px; }
         .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #ffc107; }
-        .input-group input { width: 100%; background: #2a2a2a; border: 1px solid #333; padding: 15px 15px 15px 45px; border-radius: 10px; color: #fff; font-size: 16px; outline: none; transition: 0.3s; }
-        .input-group input:focus { border-color: #ffc107; box-shadow: 0 0 10px rgba(255, 193, 7, 0.2); }
-
-        .reg-btn { width: 100%; background: #ffc107; color: #000; border: none; padding: 15px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .reg-btn:hover { background: #e5af06; }
-        .reg-btn:active { transform: scale(0.98); }
-
+        .input-group input { width: 100%; background: #2a2a2a; border: 1px solid #333; padding: 15px 15px 15px 45px; border-radius: 10px; color: #fff; font-size: 16px; outline: none; }
+        .reg-btn { width: 100%; background: #ffc107; color: #000; border: none; padding: 15px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; }
         .footer-text { text-align: center; margin-top: 20px; color: #888; font-size: 14px; }
-        .footer-text a { color: #ffc107; text-decoration: none; font-weight: bold; }
+        .footer-text a { color: #ffc107; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -33,28 +26,23 @@
     <div class="logo-section">
         <i class="fas fa-truck-monster"></i>
         <h2>JCB MINING</h2>
-        <p style="color: #666; font-size: 12px;">Start Your Earning Journey Today</p>
+        <p style="color: #666;">Create New Account</p>
     </div>
 
     <div class="input-group">
         <i class="fas fa-mobile-alt"></i>
-        <input type="number" id="reg_phone" placeholder="Mobile Number" required>
+        <input type="number" id="reg_phone" placeholder="Mobile Number">
     </div>
 
     <div class="input-group">
         <i class="fas fa-lock"></i>
-        <input type="password" id="reg_pass" placeholder="Set Password" required>
-    </div>
-
-    <div class="input-group">
-        <i class="fas fa-user-friends"></i>
-        <input type="text" id="invite_code" placeholder="Invite Code (Optional)">
+        <input type="password" id="reg_pass" placeholder="Set Password">
     </div>
 
     <button class="reg-btn" onclick="handleRegister()">CREATE ACCOUNT</button>
 
     <div class="footer-text">
-        Already have an account? <a href="index.html">Login Now</a>
+        Already have an account? <a href="index.html">Login</a>
     </div>
 </div>
 
@@ -62,27 +50,19 @@
     function handleRegister() {
         const phone = document.getElementById('reg_phone').value;
         const pass = document.getElementById('reg_pass').value;
-        const invite = document.getElementById('invite_code').value || 'No Invite';
 
-        // Basic Validation
         if (phone.length < 10) {
-            alert("Bhai, 10 digit ka sahi mobile number dalo!");
-            return;
-        }
-        if (pass.length < 4) {
-            alert("Password thoda lamba rakho (min 4 chars)!");
+            alert("Sahi 10-digit number dalo!");
             return;
         }
 
-        // Aapka Naya Google Script URL
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxmdFUvyeRn7i7NuYpO-01DWq-hvOWc1s7dA31BBdWA33QV9IZhuD-hsndIYrFEXf3x/exec';
+        // Aapka naya Web App URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyWqwd09HQOZiB_-6HpMnhF-WR5PclYPqSSRRNDqHRX1OnCazgob6lNhMYOWMpa80Jn/exec';
 
-        // Button Loading State
         const btn = document.querySelector('.reg-btn');
-        btn.innerText = "Registering...";
+        btn.innerText = "Processing...";
         btn.disabled = true;
 
-        // Data Sending Logic to Google Sheet
         fetch(scriptURL, {
             method: 'POST',
             mode: 'no-cors',
@@ -91,19 +71,14 @@
                 phone: phone,
                 type: 'REGISTRATION',
                 amount: '0',
-                details: 'Pass: ' + pass + ' | Invite: ' + invite
+                details: 'Pass: ' + pass
             })
-        })
-        .then(() => {
-            // Local storage mein save taaki login status yaad rahe
+        }).then(() => {
             localStorage.setItem('userPhone', phone);
-            localStorage.setItem('balance', '0.00'); 
-            
-            alert("Account Created Successfully!");
-            window.location.href = 'home.html'; // Home page par bhej rahe hain
-        })
-        .catch(err => {
-            alert("Server Error! Dubara koshish karein.");
+            alert("Registration Successful!");
+            window.location.href = 'home.html'; // Registration ke baad home par jayega
+        }).catch(err => {
+            alert("Error! Try again.");
             btn.innerText = "CREATE ACCOUNT";
             btn.disabled = false;
         });
