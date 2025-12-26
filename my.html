@@ -5,39 +5,99 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { margin: 0; background: #f8f9fa; font-family: sans-serif; padding-bottom: 80px; }
-        .profile-bg { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.ibb.co/FR1vrk8/182326.jpg') center/cover; height: 180px; padding: 20px; color: white; display: flex; align-items: center; }
-        .avatar { width: 70px; height: 70px; border-radius: 8px; border: 2px solid #ffc107; background: #fff; padding: 5px; }
+        
+        /* Header section with JCB background */
+        .profile-bg { 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.ibb.co/FR1vrk8/182326.jpg') center/cover; 
+            height: 180px; padding: 20px; color: white; display: flex; align-items: center; position: relative; 
+        }
+        
+        /* Logo box with JCB text instead of broken image */
+        .avatar-box { 
+            width: 70px; height: 70px; background: #fff; border-radius: 12px; border: 2px solid #ffc107; 
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .avatar-box span { color: #ffc107; font-weight: bold; font-size: 20px; letter-spacing: 1px; }
+
+        .user-info { margin-left: 15px; }
         .phone-num { font-size: 20px; font-weight: bold; margin: 0; color: #ffc107; }
-        .bal-card { display: grid; grid-template-columns: 1fr 1fr; background: #fff; margin: -30px 15px 15px 15px; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; z-index: 10; }
-        .menu-list { background: #fff; margin: 0 15px; border-radius: 12px; overflow: hidden; }
-        .menu-item { padding: 18px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-        .nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
-        .nav-item { text-decoration: none; color: #888; text-align: center; font-size: 12px; width: 50%; }
+        .id-text { font-size: 12px; opacity: 0.9; margin-top: 4px; background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 4px; display: inline-block; }
+
+        /* Balance & Income Card */
+        .bal-card { 
+            display: grid; grid-template-columns: 1fr 1fr; background: #fff; margin: -30px 15px 15px 15px; 
+            padding: 25px 10px; border-radius: 15px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+            position: relative; z-index: 10; 
+        }
+        .bal-item h2 { margin: 0; color: #222; font-size: 24px; font-weight: 700; }
+        .bal-item p { font-size: 13px; color: #777; margin: 5px 0 0 0; font-weight: 500; }
+
+        /* Menu Options */
+        .menu-list { background: #fff; margin: 0 15px; border-radius: 15px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .menu-item { 
+            padding: 18px; border-bottom: 1px solid #f1f1f1; display: flex; align-items: center; 
+            justify-content: space-between; cursor: pointer; text-decoration: none; color: inherit; 
+        }
+        .menu-left { display: flex; align-items: center; }
+        .menu-left i { font-size: 18px; color: #ffc107; margin-right: 15px; width: 25px; text-align: center; }
+        .menu-left span { font-size: 15px; color: #333; font-weight: 500; }
+        .fa-chevron-right { color: #ddd; font-size: 12px; }
+
+        /* Bottom Nav Fix */
+        .nav { 
+            position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; 
+            justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; z-index: 1000; 
+        }
+        .nav-item { text-decoration: none; color: #999; text-align: center; font-size: 12px; width: 50%; transition: 0.3s; }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 3px; }
         .nav-item.active { color: #ffc107; font-weight: bold; }
     </style>
 </head>
 <body>
+
     <div class="profile-bg">
-        <img src="https://logodownload.org/wp-content/uploads/2020/06/jcb-logo.png" class="avatar">
-        <div class="user-info" style="margin-left:15px;">
+        <div class="avatar-box">
+            <span>JCB</span>
+        </div>
+        <div class="user-info">
             <p class="phone-num" id="u_ph">8968146117</p>
-            <p style="font-size:12px; opacity:0.8;">JCB Mining ID: 13606</p>
+            <p class="id-text">JCB Mining ID: 13606</p>
         </div>
     </div>
+
     <div class="bal-card">
-        <div class="bal-item"><h2 id="balance">0.00</h2><p>Balance</p></div>
-        <div class="bal-item"><h2>0.00</h2><p>Income</p></div>
+        <div class="bal-item">
+            <h2 id="balance">0.00</h2>
+            <p>Balance</p>
+        </div>
+        <div class="bal-item">
+            <h2>0.00</h2>
+            <p>Income</p>
+        </div>
     </div>
+
     <div class="menu-list">
-        <div class="menu-item" onclick="location.href='withdraw.html'"><div><i class="fas fa-wallet" style="color:#ffc107; margin-right:10px;"></i>Withdrawal</div><i class="fas fa-chevron-right"></i></div>
-        <div class="menu-item" onclick="window.location.href='https://t.me/your_telegram'"><div><i class="fas fa-headset" style="color:#ffc107; margin-right:10px;"></i>Support</div><i class="fas fa-chevron-right"></i></div>
-        <div class="menu-item" onclick="location.href='index.html'" style="color:red;"><div><i class="fas fa-power-off" style="margin-right:10px;"></i>Logout</div><i class="fas fa-chevron-right"></i></div>
+        <a href="withdraw.html" class="menu-item">
+            <div class="menu-left"><i class="fas fa-wallet"></i> <span>Withdrawal</span></div>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="https://t.me/your_telegram" class="menu-item">
+            <div class="menu-left"><i class="fas fa-headset"></i> <span>Customer Support</span></div>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="index.html" class="menu-item" style="border:none;">
+            <div class="menu-left"><i class="fas fa-sign-out-alt" style="color: #f44336;"></i> <span style="color: #f44336;">Logout</span></div>
+            <i class="fas fa-chevron-right"></i>
+        </a>
     </div>
+
     <div class="nav">
-        <a href="home.html" class="nav-item"><i class="fas fa-home"></i><br>Home</a>
-        <a href="my.html" class="nav-item active"><i class="fas fa-user"></i><br>My</a>
+        <a href="home.html" class="nav-item"><i class="fas fa-home"></i>Home</a>
+        <a href="my.html" class="nav-item active"><i class="fas fa-user"></i>My</a>
     </div>
+
     <script>
+        // LocalStorage se data uthane ke liye
         document.getElementById('balance').innerText = localStorage.getItem('balance') || '0.00';
         document.getElementById('u_ph').innerText = localStorage.getItem('userPhone') || '8968146117';
     </script>
