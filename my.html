@@ -1,96 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - JCB</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-        body { background: #f4f4f4; padding-bottom: 80px; }
-
-        /* Profile Header */
-        .profile-header { background: linear-gradient(to bottom, #444, #222); height: 180px; padding: 30px 20px; color: white; position: relative; }
-        .user-info { display: flex; align-items: center; gap: 15px; }
-        .avatar { width: 65px; height: 65px; background: #ffcc00; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #222; border: 2px solid white; overflow: hidden; }
-        .avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .user-details h3 { font-size: 18px; margin-bottom: 5px; }
-        .vip-tag { background: #555; font-size: 10px; padding: 2px 8px; border-radius: 10px; border: 1px solid #ffcc00; }
-
-        /* Balance Card */
-        .balance-card { background: white; margin: -40px 15px 15px 15px; border-radius: 15px; padding: 25px 15px; display: grid; grid-template-columns: 1fr 1fr; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: relative; z-index: 5; }
-        .balance-item:first-child { border-right: 1px solid #eee; }
-        .balance-item h2 { font-size: 24px; color: #333; margin-bottom: 5px; }
-        .balance-item p { font-size: 13px; color: #888; }
-
-        /* Menu List */
-        .menu-list { background: white; margin: 15px; border-radius: 15px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid #f0f0f0; color: #333; text-decoration: none; cursor: pointer; }
-        .menu-item:last-child { border-bottom: none; }
-        .menu-left { display: flex; align-items: center; gap: 15px; font-size: 15px; }
-        .menu-left i { font-size: 18px; color: #444; width: 25px; text-align: center; }
-        .menu-item i.fa-chevron-right { color: #ccc; font-size: 14px; }
-
-        /* Logout Style */
-        .logout-btn { color: #d9534f !important; margin-top: 10px; }
-
-        /* Bottom Nav */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 100; }
-        .nav-item { text-align: center; color: #888; text-decoration: none; font-size: 11px; }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
-        .nav-item.active { color: #000; font-weight: bold; }
-    </style>
-</head>
-<body>
-
-    <div class="profile-header">
-        <div class="user-info">
-            <div class="avatar"><i class="fas fa-user"></i></div>
-            <div class="user-details">
-                <h3 id="u_phone">Loading...</h3>
-                <span class="vip-tag">VIP0</span>
-            </div>
-        </div>
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></head>
+<body style="margin:0; background:#f4f4f4; font-family:sans-serif;">
+    <div style="background:#333; color:white; padding:40px 20px; text-align:center;">
+        <h3>User: <span id="u">888xxx</span></h3>
+        <h2>₹ <span id="m_b">0.00</span></h2>
     </div>
-
-    <div class="balance-card">
-        <div class="balance-item">
-            <h2 id="u_bal">0</h2>
-            <p>Balance</p>
-        </div>
-        <div class="balance-item">
-            <h2 id="u_inc">0</h2>
-            <p>Total income</p>
-        </div>
+    <div style="background:white; margin:20px; border-radius:10px;">
+        <div onclick="location.href='withdraw.html'" style="padding:15px; border-bottom:1px solid #eee;"><i class="fas fa-university"></i> Withdrawal</div>
+        <div onclick="alert('Team Size: 0')" style="padding:15px; border-bottom:1px solid #eee;"><i class="fas fa-users"></i> My Team</div>
+        <div onclick="window.location.href='https://t.me/your_telegram'" style="padding:15px; border-bottom:1px solid #eee;"><i class="fas fa-headset"></i> Online Support</div>
+        <div onclick="location.href='index.html'" style="padding:15px;"><i class="fas fa-sign-out-alt"></i> Logout</div>
     </div>
-
-    <div class="menu-list">
-        <div class="menu-item"><div class="menu-left"><i class="fas fa-address-card"></i>Personal information</div><i class="fas fa-chevron-right"></i></div>
-        <div class="menu-item"><div class="menu-left"><i class="fas fa-chart-bar"></i>Income details</div><i class="fas fa-chevron-right"></i></div>
-        <div class="menu-item"><div class="menu-left"><i class="fas fa-tractor"></i>About us</div><i class="fas fa-chevron-right"></i></div>
-        <div class="menu-item"><div class="menu-left"><i class="fas fa-download"></i>Download</div><i class="fas fa-chevron-right"></i></div>
-        <div class="menu-item"><div class="menu-left"><i class="fas fa-globe"></i>Language</div><i class="fas fa-chevron-right"></i></div>
-        <div class="menu-item logout-btn" onclick="logout()"><div class="menu-left"><i class="fas fa-sign-out-alt"></i>Log out</div><i class="fas fa-chevron-right"></i></div>
-    </div>
-
-    <div class="bottom-nav">
-        <a href="home.html" class="nav-item"><i class="fas fa-home"></i>Home</a>
-        <a href="income.html" class="nav-item"><i class="fas fa-list-alt"></i>Income</a>
-        <a href="team.html" class="nav-item"><i class="fas fa-users"></i>Team</a>
-        <a href="share.html" class="nav-item"><i class="fas fa-share-alt"></i>Share</a>
-        <a href="my.html" class="nav-item active"><i class="fas fa-user-circle"></i>My</a>
-    </div>
-
     <script>
-        // Data display logic
-        document.getElementById('u_phone').innerText = localStorage.getItem('user_phone') || 'User';
-        document.getElementById('u_bal').innerText = localStorage.getItem('user_balance') || '0';
-        document.getElementById('u_inc').innerText = localStorage.getItem('total_income') || '0';
-
-        function logout() {
-            localStorage.setItem('isLoggedIn', 'false');
-            window.location.href = 'index.html';
-        }
+        document.getElementById('m_b').innerText = localStorage.getItem('balance') || '0.00';
+        document.getElementById('u').innerText = localStorage.getItem('userPhone') || 'Guest';
     </script>
 </body>
 </html>
