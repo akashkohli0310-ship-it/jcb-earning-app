@@ -2,61 +2,42 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
-        .box { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .header { margin-bottom: 20px; cursor: pointer; color: #333; font-weight: bold; }
-        input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        .btn { width: 100%; background: #ffc107; border: none; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 18px; cursor: pointer; margin-top: 10px; }
-        .info { font-size: 13px; color: #666; margin-top: 10px; }
+        body { background: #f4f4f4; font-family: sans-serif; padding: 20px; }
+        .card { background: #fff; padding: 20px; border-radius: 12px; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 12px; background: #000; color: #ffc107; border: none; border-radius: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="header" onclick="location.href='my.html'"><i class="fas fa-arrow-left"></i> Withdrawal</div>
-    
-    <div class="box">
-        <p style="margin:0; color:#888;">Available Balance</p>
-        <h2 style="margin:5px 0; color:#333;">₹ <span id="w_bal">0.00</span></h2>
-        
-        <div style="height:1px; background:#eee; margin:20px 0;"></div>
-        
-        <label style="font-size:14px; font-weight:bold;">Withdrawal Amount</label>
-        <input type="number" id="amt" placeholder="Minimum ₹350">
-        
-        <label style="font-size:14px; font-weight:bold;">Your UPI ID</label>
-        <input type="text" id="upi" placeholder="example@ybl">
-        
-        <button class="btn" onclick="processWithdraw()">WITHDRAW NOW</button>
-        
-        <div class="info">
-            <p>• Minimum withdrawal: <b>₹350</b></p>
-            <p>• Arrival time: 1-24 hours</p>
-            <p>• Fee: 0%</p>
-        </div>
+    <div class="card">
+        <h3>Withdraw Money</h3>
+        <input type="number" id="w_amt" placeholder="Withdrawal Amount">
+        <textarea id="bank" placeholder="Bank Name, A/C No, IFSC, Holder Name"></textarea>
+        <button class="btn" onclick="requestWithdraw()">SEND REQUEST</button>
     </div>
 
     <script>
-        // Balance load karna
-        document.getElementById('w_bal').innerText = localStorage.getItem('balance') || '0.00';
+        function requestWithdraw() {
+            let amt = document.getElementById('w_amt').value;
+            let bank = document.getElementById('bank').value;
+            let phone = localStorage.getItem('userPhone');
 
-        function processWithdraw() {
-            let amount = document.getElementById('amt').value;
-            let upiId = document.getElementById('upi').value;
-            let currentBal = parseFloat(localStorage.getItem('balance')) || 0;
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxv3mqFV_LSa37HzNifceMqsqyW_U6h7sefSxBOCQGUTpSYhO92uyEH8Wm_V-e1fugP/exec';
 
-            if (amount < 350) {
-                alert('Bhai, kam se kam ₹350 nikal sakte ho!');
-            } else if (amount > currentBal) {
-                alert('Balance kam hai!');
-            } else if (upiId == "") {
-                alert('UPI ID toh dalo!');
-            } else {
-                alert('Withdrawal Request Sent! UPI: ' + upiId);
-                // Balance update (sirf dikhane ke liye)
-                localStorage.setItem('balance', (currentBal - amount).toFixed(2));
-                location.href = 'my.html';
-            }
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify({
+                    phone: phone,
+                    type: 'WITHDRAWAL',
+                    amount: amt,
+                    details: 'Bank Info: ' + bank
+                })
+            }).then(() => {
+                alert("Request Sent! Paisa 24 ghante mein aayega.");
+                window.location.href = 'my.html';
+            });
         }
     </script>
 </body>
