@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #f4f4f4; margin: 0; font-family: sans-serif; padding-bottom: 90px; }
+        .header { background: #ffc107; padding: 20px; text-align: center; font-weight: bold; font-size: 18px; color: #000; }
+        .share-container { padding: 20px; text-align: center; }
+        .invite-card { background: #fff; padding: 30px 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .qr-icon { font-size: 60px; color: #ffc107; margin-bottom: 15px; }
+        .link-box { background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px dashed #ffc107; font-size: 12px; color: #666; word-break: break-all; margin: 20px 0; }
+        .copy-btn { background: #1a1a1a; color: #ffc107; border: none; width: 100%; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        
+        /* Bottom Navigation */
+        .nav { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #ddd; z-index: 1000; }
+        .nav-item { text-decoration: none; color: #888; text-align: center; font-size: 12px; width: 33%; }
+        .nav-item.active { color: #ffc107; font-weight: bold; }
+        .nav-item i { font-size: 20px; display: block; margin-bottom: 2px; }
+    </style>
+</head>
+<body>
+    <div class="header">REFER & EARN</div>
+    <div class="share-container">
+        <div class="invite-card">
+            <div class="qr-icon"><i class="fas fa-share-nodes"></i></div>
+            <h3>Invite Your Friends</h3>
+            <p style="color: #888; font-size: 13px;">Apne link ko copy karein aur dosto ko share karke commission kamayein!</p>
+            <div class="link-box" id="myLink">https://akashkohli0310-ship-it.github.io/jcb-earning-app/home.html</div>
+            <button class="copy-btn" onclick="copyIt()">COPY INVITATION LINK</button>
+        </div>
+    </div>
+
+    <div class="nav">
+        <a href="home.html" class="nav-item"><i class="fas fa-home"></i>Home</a>
+        <a href="share.html" class="nav-item active"><i class="fas fa-share-alt"></i>Share</a>
+        <a href="my.html" class="nav-item"><i class="fas fa-user"></i>My</a>
+    </div>
+
+    <script>
+        function copyIt() {
+            var text = document.getElementById("myLink").innerText;
+            navigator.clipboard.writeText(text).then(() => { 
+                alert("Invitation Link Copied! Ab ise WhatsApp par share karein."); 
+            });
+        }
+    </script>
+</body>
+</html>
